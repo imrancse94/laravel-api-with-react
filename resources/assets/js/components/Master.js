@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import {BrowserRouter as Router, Route, NavLink, Switch, Redirect} from 'react-router-dom';
 import Dashboard from './content/Dashboard';
 import Login from "./login/Login";
 export default class Master extends Component {
@@ -10,16 +11,13 @@ export default class Master extends Component {
     }
 
     componentDidMount(){
-        axios
-            .get('api/login')
-            .then(({ data })=> {
-                this.setState({
-                    kind: data.kind,
-                    data: data.data.children
-                });
-            })
-            .catch((err)=> {})
+        let token = localStorage.getItem('token');
+        if(token.length > 0){
+            this.setState({component:<Dashboard/>});
+        }
     }
+
+
     render() {
         return (
             this.state.component

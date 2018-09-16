@@ -15,12 +15,15 @@ class Maincontent extends Component {
     }
 
     render() {
-        return (
+            return (
             <React.Fragment>
+                <Switch>
+                    <Redirect exact from={'/'} to={'/home'} />
                     <Route path={'/home'} exact={true} component={Home}/>
                     <Route path={'/students'} exact={true}  component={Students}/>
                     <Route path={'/settings'} exact={true}  component={Settings}/>
                     <Route path='*' exact={true} component={Error404} />
+                </Switch>
             </React.Fragment>
         );
     }
