@@ -12,7 +12,7 @@ class Dashboard extends Component {
 
     render(){
         return(
-            <BrowserRouter >
+            <BrowserRouter>
                 <React.Fragment>
                     <Mainnavbar/>
                     <div className="page-container">

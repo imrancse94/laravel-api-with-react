@@ -1,13 +1,19 @@
 import React, {Component} from 'react';
 import $ from 'jquery'
-
+import AuthService from "../Services"
 class Mainnavbar extends Component {
 
    constructor(){
        super();
-
+       this.logout = this.logout.bind(this);
    }
 
+   logout()
+   {
+       let result = false;
+      result = AuthService.logout();
+      alert(result);
+   }
 
     render() {
 
@@ -40,7 +46,7 @@ class Mainnavbar extends Component {
                                     <li><a href="#"><i className="icon-user-lock"></i> Profile</a></li>
                                     <li><a href="#"><i className="icon-user-plus"></i>Admin Create</a></li>
                                     <li><a href="#"><i className="icon-cog5"></i> Edit Profile</a></li>
-                                    <li><a href="#"><i className="icon-switch2"></i> Logout</a></li>
+                                    <li><a onClick={this.logout} href="#"><i className="icon-switch2"></i> Logout</a></li>
                                 </ul>
                             </li>
                         </ul>

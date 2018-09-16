@@ -12,7 +12,8 @@ export default class Master extends Component {
 
     componentDidMount(){
         let token = localStorage.getItem('token');
-        if(token.length > 0){
+        console.log(token);
+        if(token != ""){
             this.setState({component:<Dashboard/>});
         }
     }
