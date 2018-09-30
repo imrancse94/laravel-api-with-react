@@ -11,4 +11,7 @@
 |
 */
 
-Route::view('/{path?}', 'welcome')->where('path', '.*')->name('react');
+/*Route::view('/{path?}', 'welcome')->where('path', '.*')->name('react');*/
+Route::get('{slug}', function() {
+    return view('welcome');
+})->where('slug', '(?!api)([A-z\d-\/_.]+)?');

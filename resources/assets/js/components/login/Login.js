@@ -15,7 +15,7 @@ import {
 import axios from 'axios'
 import { BrowserRouter, Redirect} from 'react-router-dom';
 import Dashboard from "../content/Dashboard";
-import AuthService from "../Services";
+import {login} from "../Services/AuthService";
 class Login extends Component {
 
     constructor()
@@ -38,7 +38,8 @@ class Login extends Component {
             },
             isLoading: false,
             errors: this.validator.errors,
-            content:false
+            content:false,
+            component:''
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -96,64 +97,75 @@ class Login extends Component {
     submit(credentials)
     {
         let response = false;
-        response = AuthService.login(credentials);
-        console.log(response);
+        response = login(credentials);
+        if(response){
+            this.setState({
+                component: <Dashboard/>
+            });
+        }
 
     }
 
     render(){
         const {errors} = this.state;
-        return(
-            <React.Fragment>
-                <section id="login">
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-xs-12">
-                                <div className="form-wrap">
-                                    <h1>Admin Login</h1>
-                                    <Segment className='page-loader' style={{display: this.state.isLoading ? 'block' : 'none'}}>
-                                        <Dimmer active inverted>
-                                            <Loader size='large'>Authenticating...</Loader>
-                                        </Dimmer>
-                                    </Segment>
-                                    <form>
-                                        <div className="form-group">
-                                            <label htmlFor="email" className="sr-only">Email</label>
-                                            <input  onChange={this.handleChange} type="email" name="email" id="email" className="form-control" placeholder="Email"/>
-                                            {errors.has('email') && <p>
-                                                {errors.first('email')}</p>}
-                                        </div>
-                                        <div className="form-group">
-                                            <label htmlFor="key" className="sr-only">Password</label>
-                                            <input  onChange={this.handleChange} type="password" name="password" id="key" className="form-control" placeholder="Password"/>
-                                        </div>
-                                        <div className="checkbox">
-                                            <span className="character-checkbox" onClick={this.showPassword.bind(this)}></span>
-                                            <span className="label">Show password</span>
-                                        </div>
-                                        <button onClick={this.handleSubmit} type="button" id="btn-login" className="btn btn-custom btn-lg btn-block" value="Log in">Log in</button>
+        const {component} = this.state;
+        if(component != ""){
+            return ( component)
+        } else {
+            return(
+                <React.Fragment>
+                    <section id="login">
+                        <div className="container">
+                            <div className="row">
+                                <div className="col-xs-12">
+                                    <div className="form-wrap">
+                                        <h1>Admin Login</h1>
+                                        <Segment className='page-loader' style={{display: this.state.isLoading ? 'block' : 'none'}}>
+                                            <Dimmer active inverted>
+                                                <Loader size='large'>Authenticating...</Loader>
+                                            </Dimmer>
+                                        </Segment>
+                                        <form>
+                                            <div className="form-group">
+                                                <label htmlFor="email" className="sr-only">Email</label>
+                                                <input  onChange={this.handleChange} type="email" name="email" id="email" className="form-control" placeholder="Email"/>
+                                                {errors.has('email') && <p>
+                                                    {errors.first('email')}</p>}
+                                            </div>
+                                            <div className="form-group">
+                                                <label htmlFor="key" className="sr-only">Password</label>
+                                                <input  onChange={this.handleChange} type="password" name="password" id="key" className="form-control" placeholder="Password"/>
+                                            </div>
+                                            <div className="checkbox">
+                                                <span className="character-checkbox" onClick={this.showPassword.bind(this)}></span>
+                                                <span className="label">Show password</span>
+                                            </div>
+                                            <button onClick={this.handleSubmit} type="button" id="btn-login" className="btn btn-custom btn-lg btn-block" value="Log in">Log in</button>
 
-                                    </form>
-                                    <a href="javascript:;" className="forget" data-toggle="modal"
-                                       data-target=".forget-modal">Forgot your password?</a>
-                                    <hr/>
+                                        </form>
+                                        <a href="javascript:;" className="forget" data-toggle="modal"
+                                           data-target=".forget-modal">Forgot your password?</a>
+                                        <hr/>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </section>
-                <footer id="footer">
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-xs-12">
-                                <p>Copyright © - 2018</p>
-                                <p>Powered by <strong><a href="#" target="_blank">Imran Hossain</a></strong></p>
+                    </section>
+                    <footer id="footer">
+                        <div className="container">
+                            <div className="row">
+                                <div className="col-xs-12">
+                                    <p>Copyright © - 2018</p>
+                                    <p>Powered by <strong><a href="#" target="_blank">Imran Hossain</a></strong></p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </footer>
-            </React.Fragment>
-        )
+                    </footer>
+                </React.Fragment>
+            )
+        }
+
+
 
     }
 }
